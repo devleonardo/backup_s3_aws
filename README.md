@@ -13,7 +13,7 @@ Este repositório contém um playbook do Ansible que automatiza o upload de back
 
 ### 1. AWS CLI
 
-Certifique-se de que o AWS CLI esteja configurado corretamente. Para configurar o CLI, use:
+Certifique-se de que o AWS CLI esteja configurado corretamente.
 
 
 ## 2. Variáveis
@@ -27,7 +27,7 @@ No playbook, ajuste o caminho do diretório de backups e o bucket S3 de destino,
 O playbook possui as seguintes tarefas:
 
 1. **Encontrar arquivos de backup**: Pesquisa por arquivos no diretório especificado criados nas últimas 24 horas.
-2. **Upload para o S3**: Realiza o upload dos arquivos encontrados no bucket S3 com a classe de armazenamento INTELLIGENT_TIERING.
+2. **Upload para o S3**: Realiza o upload dos arquivos encontrados para o bucket S3 com a classe de armazenamento INTELLIGENT_TIERING.
 3. **Log do status do upload**: Exibe uma mensagem com o total de arquivos carregados.
 
 ## Uso
