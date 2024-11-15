@@ -1,0 +1,21 @@
+---
+- name: Upload new firewall backups to S3
+  hosts: localhost
+  vars:
+    ansible_python_interpreter: /usr/bin/python3  # Define o interpretador Python a ser utilizado
+  tasks:
+    - name: Find new backup files created in the last 24 hours
+      shell: find /etc/backup_firewalls -type f -ctime -1  # Encontra arquivos de backup criados nas últimas 24 horas
+      register: new_backup_files  # Armazena o resultado da busca na variável 'new_backup_files'
+      changed_when: false  # Define que esta tarefa não altera o estado, para não ser marcada como 'changed'
+
+    - name: Upload new files to S3 with INTELLIGENT_TIERING storage class
+      shell: |
+        aws s3 cp "{{ item }}" "s3://backup-fortigate/backup_firewalls/{{ item | basename }}" --storage-class INTELLIGENT_TIERING
+      loop: "{{ new_backup_files.stdout_lines }}"  # Faz o upload de cada arquivo encontrado no S3, usando o armazenamento INTELLIGENT_TIERING
+      when: new_backup_files.stdout_lines | length > 0  # Executa apenas se houver arquivos novos encontrados
+      register: upload_results  # Armazena o resultado do upload na variável 'upload_results'
+
+    - name: Log upload status
+      debug:
+        msg: "Total files uploaded: {{ upload_results.results | length }}"  # Exibe uma mensagem com o total de arquivos carregados
