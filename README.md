@@ -13,7 +13,7 @@ Este repositório contém um playbook do Ansible que automatiza o upload de back
 
 ### 1. AWS CLI
 
-Certifique-se de que o AWS CLI esteja configurado corretamente.
+Certifique-se de que o AWS CLI esteja instalado e possua as permissões descritas acima.
 
 
 ## 2. Variáveis
@@ -69,6 +69,9 @@ chmod +x /etc/scripts/master.sh
 ````
 
 3. Adicione a seguinte entrada ao cron para agendar a execução diária do script às 5:00 AM:
+````py
+crontab -e
+````
 
 ````py
 0 5 * * * /usr/bin/sh /etc/scripts/master.sh
